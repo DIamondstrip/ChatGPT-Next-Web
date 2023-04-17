@@ -1,0 +1,74 @@
+@import "./window.scss";
+@import "../styles/animation.scss";
+
+@mixin container {
+  background-color: var(--white);
+  border: var(--border-in-light);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  color: var(--black);
+  background-color: var(--white);
+  min-width: 200px;
+  min-height: 480px;
+  max-width: 600px;
+  max-height: 500px;
+  padding: 24px;
+
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-sizing: border-box;
+  width: var(--window-width);
+  height: var(--window-height);
+}
+
+.container {
+  @include container();
+}
+.logo{
+    width: 80px;
+    height: 80px;
+    margin: 12px auto;
+
+}
+.title{
+    width: 100%;
+    font-size:24px;
+    text-align:center
+}
+.label{
+    width: 100%;
+    font-size: 16px;
+    margin:12px 0;
+}
+
+.input{
+  height: 25px;
+  background: none;
+  border: var(--border-in-light);
+  border-radius: 10px;
+  padding: 5px 15px 5px 10px;
+  text-align: start;
+  font-size: 20px;
+  max-width: 100% !important;
+}
+.button{
+    width:100%;
+    min-height:40px;
+    font-size:16px;
+    border: var(--border-in-light);
+    border-radius: 10px;
+    background-color: var(--primary);
+    color: white;
+    text-align: center;
+    margin-top: 28px;
+    cursor: pointer;
+}
+.logon{
+    width:100%;
+    margin-top: 12px;
+    text-align: center;
+    font-size: 16px;
+    color:var(--primary);
+    cursor: pointer;
+}

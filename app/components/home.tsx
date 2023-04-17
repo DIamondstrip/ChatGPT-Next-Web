@@ -2,10 +2,15 @@
 
 require("../polyfill");
 
-import { useState, useEffect, useRef } from "react";
+import {
+  useState,
+  useEffect,
+  useRef,
+} from "react";
 
 import { IconButton } from "./button";
 import styles from "./home.module.scss";
+import axios from "axios";
 
 import SettingsIcon from "../icons/settings.svg";
 import GithubIcon from "../icons/github.svg";
@@ -16,7 +21,7 @@ import AddIcon from "../icons/add.svg";
 import LoadingIcon from "../icons/three-dots.svg";
 import CloseIcon from "../icons/close.svg";
 
-import { useChatStore } from "../store";
+import { useChatStore, useLoginStore } from "../store";
 import { getCSSVar, isMobileScreen } from "../utils";
 import Locale from "../locales";
 import { Chat } from "./chat";
@@ -39,6 +44,9 @@ const Settings = dynamic(async () => (await import("./settings")).Settings, {
 });
 
 const ChatList = dynamic(async () => (await import("./chat-list")).ChatList, {
+  loading: () => <Loading noLogo />,
+});
+const Login = dynamic(async () => (await import("./login")).Login, {
   loading: () => <Loading noLogo />,
 });
 
@@ -139,13 +147,36 @@ function _Home() {
     ],
   );
   const chatStore = useChatStore();
+  const [login_token, updateUser] = useLoginStore((state) => [state.login_token, state.updateUser])
+  console.log(login_token, '?login');
+
+  const checkToken = async (token: string) => {
+    try {
+      const res = await axios.get('http://172.16.28.156:3001/users/checkToken', {
+        params: {
+          token
+        }
+      })
+      if (res.status !== 200) {
+        updateUser('')
+      }
+    } catch (e) {
+      updateUser('')
+    }
+
+  }
+  useEffect(() => {
+    if (login_token) {
+      checkToken(login_token)
+    }
+  }, [])
+
   const loading = !useHasHydrated();
   const [showSideBar, setShowSideBar] = useState(true);
 
   // setting
   const [openSettings, setOpenSettings] = useState(false);
   const config = useChatStore((state) => state.config);
-
   // drag side bar
   const { onDragMouseDown } = useDragSideBar();
 
@@ -155,13 +186,16 @@ function _Home() {
     return <Loading />;
   }
 
+  if (!login_token) {
+    return <Login />
+  }
+
   return (
     <div
-      className={`${
-        config.tightBorder && !isMobileScreen()
+      className={`${config.tightBorder && !isMobileScreen()
           ? styles["tight-container"]
           : styles.container
-      }`}
+        }`}
     >
       <div
         className={styles.sidebar + ` ${showSideBar && styles["sidebar-show"]}`}

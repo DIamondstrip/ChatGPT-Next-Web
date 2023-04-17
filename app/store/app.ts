@@ -202,6 +202,8 @@ interface ChatStore {
   config: ChatConfig;
   sessions: ChatSession[];
   currentSessionIndex: number;
+  user_token?: string;
+  updateUser?: () => void;
   clearSessions: () => void;
   removeSession: (index: number) => void;
   moveSession: (from: number, to: number) => void;
@@ -386,7 +388,6 @@ export const useChatStore = create<ChatStore>()(
         const botMessage: Message = createMessage({
           role: "assistant",
           streaming: true,
-          id: userMessage.id! + 1,
         });
 
         // get recent messages
