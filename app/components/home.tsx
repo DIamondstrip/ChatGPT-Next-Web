@@ -152,7 +152,7 @@ function _Home() {
 
   const checkToken = async (token: string) => {
     try {
-      const res = await axios.get('http://172.16.28.156:3001/users/checkToken', {
+      const res = await axios.get('http://chattok.miquanbao.com:3001/users/checkToken', {
         params: {
           token
         }
@@ -238,11 +238,11 @@ function _Home() {
                 shadow
               />
             </div>
-            <div className={styles["sidebar-action"]}>
+            {/* <div className={styles["sidebar-action"]}>
               <a href={REPO_URL} target="_blank">
                 <IconButton icon={<GithubIcon />} shadow />
               </a>
-            </div>
+            </div> */}
           </div>
           <div>
             <IconButton

@@ -19,7 +19,7 @@ export function Login() {
     const onFinish = async () => {
         if (!userName && !passWord) return
         if (isLogon) {
-            const res = await axios.post('http://10.0.4.7:3001/users/addUser', {
+            const res = await axios.post('http://chattok.miquanbao.com:3001/users/addUser', {
                 name: userName,
                 password: passWord,
                 invitationCode
@@ -31,7 +31,7 @@ export function Login() {
             }
             return
         }
-        const res = await axios.post('http://10.0.4.7:3001/users/login', {
+        const res = await axios.post('http://chattok.miquanbao.com:3001/users/login', {
             userName: userName,
             password: passWord
         })
